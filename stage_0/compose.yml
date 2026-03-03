@@ -1,0 +1,22 @@
+services:
+  db: 
+    image: mysql:8.0
+    container_name: db
+    restart: always
+    environment:
+      - MYSQL_ROOT_PASSWORD=okibe
+      - MYSQL_DATABASE=reskilled
+      - MYSQL_USER=okibe
+      - MYSQL_PASSWORD=okibe007
+    ports:
+      - '3306:3306'
+    volumes:
+      - reskilled_db:/var/lib/mysql
+    healthcheck:
+      test: ["CMD", "mysqladmin", 'ping', '-h', 'localhost', '-uokibe', '-pokibe007']
+      interval: 1m30s
+      timeout: 30s
+      retries: 5
+      start_period: 60s
+volumes:
+    reskilled_db:
