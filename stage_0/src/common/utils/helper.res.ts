@@ -19,6 +19,7 @@ export const sendError = (
   errorCode: string,
   details?: any
 ) => {
+  console.error(details);
   return res.status(statusCode).json({
     success: false,
     message,
