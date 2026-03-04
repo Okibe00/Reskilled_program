@@ -23,6 +23,10 @@ class UserService {
   async findByEmail(email: string) {
     return await prisma.user.findUnique({ where: { email } });
   }
+  async deleteUser(id: string) {
+    //delete associated boards, column, cards.
+    return await prisma.user.delete({ where: { id } });
+  }
 }
 
 export default new UserService();

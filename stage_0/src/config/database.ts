@@ -1,4 +1,3 @@
-// import { PrismaClient } from "../../node_modules/generated/prisma/client.js";
 import 'dotenv/config';
 import { PrismaClient } from '@prisma/client';
 import { PrismaMariaDb } from '@prisma/adapter-mariadb';

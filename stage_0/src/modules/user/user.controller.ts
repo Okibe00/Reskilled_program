@@ -9,9 +9,26 @@ class UserController {
 
   async create(req: Request, res: Response) {
     try {
-      //validation not implemented yet
-      // console.log("body structure", req.body)
       const user = await userService.createUser(req.body);
+      res.status(201).json(user);
+    } catch (error: any) {
+      res.status(400).json({ message: error.message });
+    }
+  }
+
+  async delete(req: Request, res: Response) {
+    try {
+      const id = req.params.id as string;
+      const user = await userService.deleteUser(id);
+      res.status(201).json(user);
+    } catch (error: any) {
+      res.status(400).json({ message: error.message });
+    }
+  }
+  async update(req: Request, res: Response) {
+    try {
+      const id = req.params.id as string;
+      const user = await userService.updateUser(id, req.body);
       res.status(201).json(user);
     } catch (error: any) {
       res.status(400).json({ message: error.message });
