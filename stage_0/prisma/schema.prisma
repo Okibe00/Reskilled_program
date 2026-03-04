@@ -18,7 +18,7 @@ model User {
   name      String   @unique
   email     String   @unique
   password  String
-  boards    Board[] 
+  boards    Board[]
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 }
@@ -34,27 +34,31 @@ model User {
 
 // Board - Belongs to user
 model Board {
-  id          String      @id @default(uuid())
+  id          String   @id @default(uuid())
   title       String
   description String?
   userId      String
   user        User     @relation(fields: [userId], references: [id], onDelete: Cascade)
   columns     Column[]
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
 }
 
 // Column - Belongs to a Board
 model Column {
-  id            String      @id @default(uuid())
+  id            String   @id @default(uuid())
   name          String
   positionIndex Int
   boardId       String
   board         Board    @relation(fields: [boardId], references: [id], onDelete: Cascade)
   cards         Card[]
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
 }
 
 // Card - Belongs to a Column
 model Card {
-  id            String      @id @default(uuid())
+  id            String   @id @default(uuid())
   title         String
   content       String?
   positionIndex Int
@@ -62,12 +66,15 @@ model Card {
   column        Column   @relation(fields: [columnId], references: [id], onDelete: Cascade)
   tags          Tag[]    @relation("CardToTag")
   createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
 }
 
 // Tag - Can be attached to many Cards
 model Tag {
-  id        String      @id @default(uuid())
+  id        String   @id @default(uuid())
   label     String   @unique
   colorHex  String   @default("#FFFFFF")
   cards     Card[]   @relation("CardToTag")
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 }

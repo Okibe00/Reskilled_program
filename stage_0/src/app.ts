@@ -4,6 +4,7 @@ import swaggerSpec from './config/swagger.js';
 import userRoutes from './modules/user/user.routes.js';
 import authRoutes from './modules/auth/auth.routes.js';
 import boardRoutes from './modules/board/board.routes.js';
+import columnRoutes from './modules/column/column.routes.js';
 import { globalErrorHandler } from './common/middleware/error.middleware.js';
 const PORT = 8080;
 const app = express();
@@ -18,6 +19,7 @@ app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerSpec));
 app.use(userRoutes);
 app.use(authRoutes);
 app.use(boardRoutes);
+app.use(columnRoutes);
 
 //global error handler
 app.use(globalErrorHandler);
