@@ -1,6 +1,7 @@
 import jwt from 'jsonwebtoken';
 import bcrypt from 'bcrypt';
 import userService from '../user/user.service.js';
+import { CreateUserDto } from '../user/dto/user.dto.js';
 
 export const authService = {
   async login(email: string, pass: string) {
@@ -14,5 +15,18 @@ export const authService = {
       return { token };
     }
     throw new Error('Invalid credentials');
+  },
+
+  async signup(user: CreateUserDto) {
+    const newUser = { ...user, password: bcrypt.hashSync(user.password, 10) };
+    const createdUser = await userService.createUser(newUser);
+    if (createdUser) {
+      const token = jwt.sign(
+        { id: createdUser.id, email: createdUser.email },
+        process.env.JWT_SECRET!,
+        { expiresIn: '1h' }
+      );
+      return { token, createdUser };
+    }
   },
 };

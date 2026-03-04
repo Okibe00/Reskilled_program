@@ -6,23 +6,30 @@ import {
   userParamSchema,
 } from './dto/user.dto.js';
 import { validateUser } from '../../common/middleware/validation.middleware.js';
+import { authGuard } from '../../common/middleware/auth.middleware.js';
 const router = Router();
 /**
  * @swagger
  * /users:
  *   get:
  *     summary: Get all users
+ *     security:
+ *        - bearerAuth: []
+ *     tags:
+ *        - Users
  *     responses:
  *       200:
  *         description: Success
  */
-router.get('/users', UserController.getAll);
+router.get('/users', authGuard, UserController.getAll);
 
 /**
  * @swagger
  * /user:
  *   post:
  *     summary: Create a user.
+ *     security: 
+ *       - bearerAuth: []
  *     tags:
  *        - Users
  *     requestBody:
@@ -61,7 +68,10 @@ router.post(
  *   patch:
  *     summary: Update a user
  *     description: Updates user details by ID.
- *
+ *     security:
+ *       - bearerAuth: []
+ *     tags:
+ *       - Users
  *     parameters:
  *       - name: id
  *         in: path
@@ -109,6 +119,10 @@ router.patch(
  * /user/{id}:
  *   delete:
  *     summary: delete user by ID
+ *     security:
+ *       - bearerAuth: []
+ *     tags:
+ *       - Users
  *     parameters:
  *       - name: id
  *         in: path
