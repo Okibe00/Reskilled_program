@@ -16,18 +16,15 @@ const options = {
         },
       },
     },
-    security: [{ bearerAuth: [] }],
+    // security: [{ bearerAuth: [] }],
     servers: [
       {
         url: 'http://localhost:8080',
       },
     ],
   },
-  apis: ['dist/src/modules/**/*.js'], // path to route files
+  apis: ['dist/src/modules/**/*.js'],
 };
 
 const swaggerSpec = swaggerJsdoc(options);
-// console.log('Swagger scanning path...');
-// console.log(options.apis);
-// console.log(JSON.stringify(swaggerSpec.paths, null, 2));
 export default swaggerSpec;
