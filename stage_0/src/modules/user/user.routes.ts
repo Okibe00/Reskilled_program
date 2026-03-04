@@ -13,15 +13,13 @@ const router = Router();
  * /users:
  *   get:
  *     summary: Get all users
- *     security:
- *        - bearerAuth: []
  *     tags:
  *        - Users
  *     responses:
  *       200:
  *         description: Success
  */
-router.get('/users', authGuard, UserController.getAll);
+router.get('/users', UserController.getAll);
 
 /**
  * @swagger
