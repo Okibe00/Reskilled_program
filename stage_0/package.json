@@ -16,11 +16,11 @@
   "main": "app.ts",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "build": "./clean_dist_dir.sh && npx tsc",
+    "build": "./clean_dist_dir.sh &&  tsc",
     "prestart": "npm run build",
     "start": "node dist/index.js",
     "predev": "npm run build",
-    "dev": "npx tsc -w & nodemon ./dist/src/app.js"
+    "dev": "tsc -w & nodemon ./dist/src/app.js"
   },
   "dependencies": {
     "@prisma/adapter-mariadb": "^7.4.2",
@@ -34,7 +34,6 @@
     "jsonwebtoken": "^9.0.3",
     "swagger-jsdoc": "^6.2.8",
     "swagger-ui-express": "^5.0.1",
-    "typescript": "^5.9.3",
     "zod": "^4.3.6"
   },
   "devDependencies": {
@@ -43,6 +42,7 @@
     "@types/swagger-jsdoc": "^6.0.4",
     "@types/swagger-ui-express": "^4.1.8",
     "nodemon": "^3.1.14",
-    "prisma": "^7.4.2"
+    "prisma": "^7.4.2",
+    "typescript": "^5.9.3"
   }
 }
