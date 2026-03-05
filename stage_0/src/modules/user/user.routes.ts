@@ -8,6 +8,7 @@ import {
 import { validateUser } from '../../common/middleware/validation.middleware.js';
 import { authGuard } from '../../common/middleware/auth.middleware.js';
 const router = Router();
+
 /**
  * @swagger
  * /users:
@@ -19,7 +20,7 @@ const router = Router();
  *       200:
  *         description: Success
  */
-router.get('/users', UserController.getAll);
+router.get('/users',authGuard, UserController.getAll);
 
 /**
  * @swagger
@@ -57,6 +58,7 @@ router.get('/users', UserController.getAll);
  */
 router.post(
   '/user',
+  authGuard,
   validateUser(CreateUserSchema, 'body'),
   UserController.create
 );
@@ -107,6 +109,7 @@ router.post(
  */
 router.patch(
   '/user/:id',
+  authGuard,
   validateUser(userParamSchema, 'param'),
   validateUser(UpdateUserSchema, 'body'),
   UserController.update
@@ -135,6 +138,7 @@ router.patch(
  */
 router.delete(
   '/user/:id',
+  authGuard,
   validateUser(userParamSchema, 'param'),
   UserController.delete
 );
