@@ -25,7 +25,7 @@ export const sendError = (
     message,
     error: {
       code: errorCode,
-      details,
+      details: 'Internal Server Error'
     },
   });
 };

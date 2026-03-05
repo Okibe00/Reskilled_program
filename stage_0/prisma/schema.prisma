@@ -58,15 +58,16 @@ model Column {
 
 // Card - Belongs to a Column
 model Card {
-  id            String   @id @default(uuid())
+  id            String    @id @default(uuid())
   title         String
   content       String?
   positionIndex Int
+  dueDate       DateTime?
   columnId      String
-  column        Column   @relation(fields: [columnId], references: [id], onDelete: Cascade)
-  tags          Tag[]    @relation("CardToTag")
-  createdAt     DateTime @default(now())
-  updatedAt     DateTime @updatedAt
+  column        Column    @relation(fields: [columnId], references: [id], onDelete: Cascade)
+  tags          Tag[]     @relation("CardToTag")
+  createdAt     DateTime  @default(now())
+  updatedAt     DateTime  @updatedAt
 }
 
 // Tag - Can be attached to many Cards
