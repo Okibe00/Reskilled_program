@@ -4,16 +4,16 @@ services:
     container_name: db
     restart: always
     environment:
-      - MYSQL_ROOT_PASSWORD=okibe
-      - MYSQL_DATABASE=reskilled
-      - MYSQL_USER=okibe
-      - MYSQL_PASSWORD=okibe007
+      - MYSQL_ROOT_PASSWORD=${DATABASE_PASSWORD}
+      - MYSQL_DATABASE=${DATABASE_NAME}
+      - MYSQL_USER=${DATABASE_USER}
+      - MYSQL_PASSWORD=${DATABASE_PASSWORD_REG_USER}
     ports:
       - '3306:3306'
     volumes:
       - reskilled_db:/var/lib/mysql
     healthcheck:
-      test: ["CMD", "mysqladmin", 'ping', '-h', 'localhost', '-uokibe', '-pokibe007']
+      test: ["CMD", "mysqladmin", 'ping', '-h', '${DATABASE_HOST}', '-u${DATABASE_USER}', '-p${DATABASE_PASSWORD}']
       interval: 1m30s
       timeout: 30s
       retries: 5
