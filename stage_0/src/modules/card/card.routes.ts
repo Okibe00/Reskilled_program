@@ -56,6 +56,7 @@ const route = Router();
  */
 route.post(
   '/card',
+  authGuard,
   validateUser(CreateCardSchema, 'body'),
   cardController.createCard
 );
@@ -105,6 +106,7 @@ route.post(
  */
 route.patch(
   '/card/:id',
+  authGuard,
   validateUser(UpdateCardSchema, 'body'),
   cardController.updateCard
 );
@@ -130,6 +132,7 @@ route.patch(
  */
 route.delete(
   '/card/:id',
+  authGuard,
   validateUser(CardParamSchema, 'param'),
   cardController.deleteCard
 );
@@ -184,6 +187,7 @@ route.delete(
  */
 route.get(
   '/column/:id/cards',
+  authGuard,
   validateUser(CardParamSchema, 'param'),
   cardController.getCardInColumn
 );
@@ -228,6 +232,7 @@ route.get(
  */
 route.post(
   '/tag/:id/assign',
+  authGuard,
   validateUser(CardParamSchema, 'param'),
   validateUser(CreateTagSchema, 'body'),
   cardController.assignTag
