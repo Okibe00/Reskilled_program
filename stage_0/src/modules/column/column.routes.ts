@@ -47,6 +47,7 @@ const route = Router();
  */
 route.post(
   '/column',
+  authGuard,
   validateUser(CreateColumnSchema, 'body'),
   columnController.createColumn
 );
@@ -88,6 +89,7 @@ route.post(
  */
 route.patch(
   '/column/:id',
+  authGuard,
   validateUser(UpdateColumnSchema, 'param'),
   validateUser(UpdateColumnSchema, 'body'),
   columnController.updateColumn
@@ -114,6 +116,7 @@ route.patch(
  */
 route.delete(
   '/column/:id',
+  authGuard,
   validateUser(ColumnParamSchema, 'param'),
   columnController.deleteColumn
 );
