@@ -5,7 +5,68 @@ A high-performance, type-safe REST API built with **Express.js**, mimicking the 
 ## 📊 Database Schema Diagram
 ### Database and ORM choice
 I used MySQL with Prisma ORM because it provides strong relational support and Prisma gives type-safe database queries.
-![Database scheme diagram](https://drive.google.com/file/d/1xhIzf3FYHpGBau6xI1VK1huqSMROB_il/view?usp=drive_link)
+## Database Schema
+
+```mermaid
+erDiagram
+
+    USER ||--o{ BOARD : owns
+    BOARD ||--o{ COLUMN : contains
+    COLUMN ||--o{ CARD : contains
+    CARD ||--o{ CARD_TAG : tagged_with
+    TAG ||--o{ CARD_TAG : used_in
+
+    USER {
+        string id
+        string name
+        string email
+        string password
+        datetime createdAt
+        datetime updatedAt
+    }
+
+    BOARD {
+        string id
+        string title
+        string description
+        string userId
+        datetime createdAt
+        datetime updatedAt
+    }
+
+    COLUMN {
+        string id
+        string name
+        int positionIndex
+        string boardId
+        datetime createdAt
+        datetime updatedAt
+    }
+
+    CARD {
+        string id
+        string title
+        string content
+        int positionIndex
+        datetime dueDate
+        string columnId
+        datetime createdAt
+        datetime updatedAt
+    }
+
+    TAG {
+        string id
+        string label
+        string colorHex
+        datetime createdAt
+        datetime updatedAt
+    }
+
+    CARD_TAG {
+        string cardId
+        string tagId
+    }
+```
 
 ---
 
