@@ -10,6 +10,7 @@ const route = Router();
  * /auth/login:
  *   post:
  *     summary: login a user.
+ *     security: []
  *     tags:
  *        - Auth
  *     requestBody:
@@ -33,15 +34,18 @@ const route = Router();
  *       201:
  *         description: Success
  */
-route.post('/auth/login', validateUser(loginSchema, 'body'), authController.login);
-
-
+route.post(
+  '/auth/login',
+  validateUser(loginSchema, 'body'),
+  authController.login
+);
 
 /**
  * @swagger
  * /auth/signup:
  *   post:
  *     summary: register a new user.
+ *     security: []
  *     tags:
  *        - Auth
  *     requestBody:
@@ -69,5 +73,9 @@ route.post('/auth/login', validateUser(loginSchema, 'body'), authController.logi
  *       201:
  *         description: Success
  */
-route.post('/auth/signup', validateUser(loginSchema, 'body'), authController.signup);
+route.post(
+  '/auth/signup',
+  validateUser(loginSchema, 'body'),
+  authController.signup
+);
 export default route;
