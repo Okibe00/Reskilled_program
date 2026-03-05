@@ -5,7 +5,7 @@ A high-performance, type-safe REST API built with **Express.js**, mimicking the 
 ## 📊 Database Schema Diagram
 ### Database and ORM choice
 I used MySQL with Prisma ORM because it provides strong relational support and Prisma gives type-safe database queries.
-![Database scheme diagram](db_schema.png)
+![Database scheme diagram](https://drive.google.com/file/d/1xhIzf3FYHpGBau6xI1VK1huqSMROB_il/view?usp=drive_link)
 
 ---
 
