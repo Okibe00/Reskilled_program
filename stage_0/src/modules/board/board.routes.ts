@@ -83,6 +83,7 @@ route.get('/board', authGuard, boardController.getUserBoard);
  */
 route.post(
   '/board',
+  authGuard,
   validateUser(CreateBoardSchema, 'body'),
   boardController.createBoard
 );
@@ -124,6 +125,7 @@ route.post(
  */
 route.patch(
   '/board/:id',
+  authGuard,
   validateUser(BoardParamSchema, 'params'),
   validateUser(UpdateBoardSchema, 'body'),
   boardController.updateBoard
@@ -152,6 +154,7 @@ route.patch(
  */
 route.delete(
   '/board/:id',
+  authGuard,
   validateUser(BoardParamSchema, 'params'),
   boardController.deleteBoard
 );
