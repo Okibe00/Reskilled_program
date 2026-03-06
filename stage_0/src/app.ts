@@ -25,6 +25,9 @@ app.use(boardRoutes);
 app.use(columnRoutes);
 app.use(cardRoutes);
 
+app.get('/', (req, res) => {
+  res.redirect('/api-docs');
+});
 //global error handler
 app.use(globalErrorHandler);
 
