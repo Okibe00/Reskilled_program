@@ -19,6 +19,8 @@
     "build": "./clean_dist_dir.sh &&  tsc",
     "prestart": "npm run build",
     "start": "node dist/index.js",
+    "postinstall": "prisma generate",
+    "migrate": "prisma migrate deploy",
     "predev": "npm run build",
     "dev": "tsc -w & nodemon ./dist/src/app.js"
   },
