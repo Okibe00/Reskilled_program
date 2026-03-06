@@ -7,7 +7,7 @@ import boardRoutes from './modules/board/board.routes.js';
 import columnRoutes from './modules/column/column.routes.js';
 import cardRoutes from './modules/card/card.routes.js';
 import { globalErrorHandler } from './common/middleware/error.middleware.js';
-const PORT = 8080;
+const PORT = process.env.PORT || 1000;
 const app = express();
 
 //Middleware
@@ -29,5 +29,5 @@ app.use(cardRoutes);
 app.use(globalErrorHandler);
 
 app.listen(PORT, () => {
-  console.log('Welcome!');
+  console.log(`Welcome!, listening on port ${PORT}`);
 });
