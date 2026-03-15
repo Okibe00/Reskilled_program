@@ -16,10 +16,10 @@ const options = {
         },
       },
     },
-    security: [{bearerAuth: []}],
+    security: [{ bearerAuth: [] }],
     servers: [
       {
-        url: 'http://localhost:8080',
+        url: `http://localhost:3400`,
       },
     ],
   },

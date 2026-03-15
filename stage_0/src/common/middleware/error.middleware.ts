@@ -31,7 +31,6 @@ export const globalErrorHandler: ErrorRequestHandler = (
   }
 
   // 3. Fallback for everything else
-    console.log('gobal')
   return res.status(err.status || 500).json({
     status: 'error',
     message: err.message || 'Interner  server Error',

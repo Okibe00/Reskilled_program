@@ -1,6 +1,6 @@
 import { Router } from 'express';
 import authController from './auth.controller.js';
-import { loginSchema } from './dto/login.dto.js';
+import { loginSchema, signUpSchema } from './dto/login.dto.js';
 import { validateUser } from '../../common/middleware/validation.middleware.js';
 
 const route = Router();
@@ -75,7 +75,7 @@ route.post(
  */
 route.post(
   '/auth/signup',
-  validateUser(loginSchema, 'body'),
+  validateUser(signUpSchema, 'body'),
   authController.signup
 );
 export default route;
