@@ -1,11 +1,22 @@
 import prisma from '../../config/database.js';
 import { CreateCardDto, UpdateCardDto, CreateTagDto } from './dto/card.dto.js';
-
+import { appEvents, EVENTS } from '../../common/events/event-emitter.js';
 class CardService {
   async create(data: CreateCardDto) {
-    return prisma.card.create({
+    const newCard = await prisma.card.create({
       data: data,
     });
+
+    if (newCard) {
+      const boardId = await prisma.column.findUnique({
+        where: {
+          id: newCard.columnId,
+        },
+        select: { boardId: true },
+      });
+      appEvents.emit(EVENTS.CARD_CREATED, { boardId, card: newCard });
+    }
+    return newCard;
   }
 
   async update(id: string, data: UpdateCardDto) {
