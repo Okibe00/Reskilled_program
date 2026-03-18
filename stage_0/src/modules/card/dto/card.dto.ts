@@ -10,6 +10,7 @@ export const UpdateCardSchema = z.object({
     .optional(),
   dueDate: z.coerce.date().optional(),
   positionIndex: z.int().min(1).optional(),
+  version: z.number().int().optional(),
 });
 export const moveCardSchema = z.object({
   cardId: z.uuid(),

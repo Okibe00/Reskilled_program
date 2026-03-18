@@ -66,8 +66,8 @@ class CardService {
 
   async update(id: string, data: UpdateCardDto) {
     return prisma.card.update({
-      where: { id },
-      data: data,
+      where: { id, version: data.version },
+      data: {...data, version: {increment: 1}},
     });
   }
 

@@ -55,6 +55,7 @@ model Card {
   content       String?
   positionIndex Int
   dueDate       DateTime?
+  version       Int       @default(1)
   rank          String
   columnId      String
   comments      Comment[]
