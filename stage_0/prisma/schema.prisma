@@ -24,15 +24,6 @@ model User {
   updatedAt DateTime  @updatedAt
 }
 
-// // 1. User: The owner of the workspace
-// model User {
-//   id        Int      @id @default(autoincrement())
-//   username  String   @unique
-//   email     String   @unique
-//   boards    Board[]
-//   createdAt DateTime @default(now())
-// }
-
 // Board - Belongs to user
 model Board {
   id          String   @id @default(uuid())
@@ -64,12 +55,16 @@ model Card {
   content       String?
   positionIndex Int
   dueDate       DateTime?
+  rank          String
   columnId      String
   comments      Comment[]
   column        Column    @relation(fields: [columnId], references: [id], onDelete: Cascade)
   tags          Tag[]     @relation("CardToTag")
   createdAt     DateTime  @default(now())
   updatedAt     DateTime  @updatedAt
+
+  @@unique([columnId, rank])
+  @@index([columnId, rank])
 }
 
 // Tag - Can be attached to many Cards
@@ -93,7 +88,7 @@ model Comment {
   parentId  String?
   user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
 
-  card Card @relation(fields: [cardId], references: [id], onDelete: Cascade)
+  card    Card      @relation(fields: [cardId], references: [id], onDelete: Cascade)
   parent  Comment?  @relation("ThreadedReplies", fields: [parentId], references: [id], onDelete: Cascade)
   replies Comment[] @relation("ThreadedReplies")
 }

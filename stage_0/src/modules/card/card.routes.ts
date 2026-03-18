@@ -4,6 +4,7 @@ import {
   UpdateCardSchema,
   CardParamSchema,
   CreateTagSchema,
+  moveCardSchema,
 } from './dto/card.dto.js';
 import { authGuard } from '../../common/middleware/auth.middleware.js';
 import { validateUser } from '../../common/middleware/validation.middleware.js';
@@ -238,4 +239,51 @@ route.post(
   cardController.assignTag
 );
 
+/**
+ * @swagger
+ * /card/rank:
+ *   put:
+ *     summary: Move or reorder a card within or across columns
+ *     tags:
+ *       - Card
+ *     parameters:
+ *       - in: query
+ *         name: cardId
+ *         required: true
+ *         schema:
+ *           type: string
+ *           format: uuid
+ *         description: ID of the card being moved
+ *       - in: query
+ *         name: columnId
+ *         required: true
+ *         schema:
+ *           type: string
+ *           format: uuid
+ *         description: ID of the target column
+ *       - in: query
+ *         name: prevRank
+ *         required: false
+ *         schema:
+ *           type: string
+ *         description: Rank of the previous card (used to calculate new position)
+ *       - in: query
+ *         name: nextRank
+ *         required: false
+ *         schema:
+ *           type: string
+ *         description: Rank of the next card (used to calculate new position)
+ *     responses:
+ *       200:
+ *         description: Card moved successfully
+ *       400:
+ *         description: Invalid query parameters
+ *       404:
+ *         description: Card or column not found
+ */
+route.put(
+  '/card/rank',
+  validateUser(moveCardSchema, 'query'),
+  cardController.moveCard
+);
 export default route;
