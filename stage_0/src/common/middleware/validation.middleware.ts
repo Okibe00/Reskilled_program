@@ -7,8 +7,10 @@ export const validateUser =
     try {
       if (object === 'body') {
         await schema.parseAsync(req.body);
-      } else if (object ===  'param') {
+      } else if (object === 'param') {
         await schema.parseAsync(req.params);
+      } else if (object === 'query') {
+        await schema.parseAsync(req.query);
       }
       next();
     } catch (error) {

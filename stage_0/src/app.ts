@@ -6,6 +6,7 @@ import authRoutes from './modules/auth/auth.routes.js';
 import boardRoutes from './modules/board/board.routes.js';
 import columnRoutes from './modules/column/column.routes.js';
 import cardRoutes from './modules/card/card.routes.js';
+import commentRoutes from './modules/comment/comment.routes.js';
 import { globalErrorHandler } from './common/middleware/error.middleware.js';
 const app = express();
 
@@ -23,6 +24,7 @@ app.use(authRoutes);
 app.use(boardRoutes);
 app.use(columnRoutes);
 app.use(cardRoutes);
+app.use(commentRoutes);
 
 app.get('/', (req, res) => {
   res.redirect('/api-docs');

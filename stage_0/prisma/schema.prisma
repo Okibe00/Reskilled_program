@@ -14,13 +14,14 @@ datasource db {
 
 //USER MODEL
 model User {
-  id        String   @id @default(uuid())
-  name      String   @unique
-  email     String   @unique
+  id        String    @id @default(uuid())
+  name      String    @unique
+  email     String    @unique
   password  String
   boards    Board[]
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+  comments  Comment[]
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
 }
 
 // // 1. User: The owner of the workspace
@@ -64,6 +65,7 @@ model Card {
   positionIndex Int
   dueDate       DateTime?
   columnId      String
+  comments      Comment[]
   column        Column    @relation(fields: [columnId], references: [id], onDelete: Cascade)
   tags          Tag[]     @relation("CardToTag")
   createdAt     DateTime  @default(now())
@@ -78,4 +80,20 @@ model Tag {
   cards     Card[]   @relation("CardToTag")
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
+}
+
+// Comment - Belongs to a user and card
+model Comment {
+  id        String   @id @default(uuid())
+  content   String   @db.Text
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  userId    String
+  cardId    String
+  parentId  String?
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  card Card @relation(fields: [cardId], references: [id], onDelete: Cascade)
+  parent  Comment?  @relation("ThreadedReplies", fields: [parentId], references: [id], onDelete: Cascade)
+  replies Comment[] @relation("ThreadedReplies")
 }
