@@ -6,15 +6,28 @@ import {
   moveCardDto,
   PaginatedCardDto,
 } from './dto/card.dto.js';
-import { appEvents, EVENTS } from '../../common/events/event-emitter.js';
-import { LexoRankUtil } from '../../common/utils/lexorank.utils.js';
+import {
+  appEvents,
+  appEventsType,
+  EVENTS,
+} from '../../common/events/event-emitter.js';
+import {
+  LexoRankUtil,
+  LexoRankUtilType,
+} from '../../common/utils/lexorank.utils.js';
+import { PrismaClient } from '@prisma/client';
 
-class CardService {
+export class CardService {
+  constructor(
+    private prisma: PrismaClient,
+    private LexoRankUtil: LexoRankUtilType,
+    private eventManager: appEventsType
+  ) {}
   async moveCard(data: moveCardDto) {
     const { cardId, columnId, prevRank, nextRank } = data;
-    const newRank = LexoRankUtil.calculateRank(prevRank, nextRank);
+    const newRank = this.LexoRankUtil.calculateRank(prevRank, nextRank);
 
-    const updatedCard = await prisma.card.update({
+    const updatedCard = await this.prisma.card.update({
       where: { id: cardId },
       data: {
         columnId: columnId,
@@ -23,7 +36,7 @@ class CardService {
       include: { column: { select: { boardId: true } } },
     });
 
-    appEvents.emit(EVENTS.CARD_MOVED, {
+    this.eventManager.emit(EVENTS.CARD_MOVED, {
       boardId: updatedCard.column.boardId,
       card: updatedCard,
     });
@@ -34,51 +47,51 @@ class CardService {
   async computeNewCardRank(data: any) {
     let newRank: string;
 
-    const lastCard = await prisma.card.findFirst({
+    const lastCard = await this.prisma.card.findFirst({
       where: { columnId: data.columnId },
       orderBy: { rank: 'desc' },
     });
 
     if (!lastCard) {
-      newRank = LexoRankUtil.calculateRank(undefined, undefined);
+      newRank = this.LexoRankUtil.calculateRank(undefined, undefined);
     } else {
-      newRank = LexoRankUtil.calculateRank(lastCard.rank, undefined);
+      newRank = this.LexoRankUtil.calculateRank(lastCard.rank, undefined);
     }
     return newRank;
   }
   async create(data: CreateCardDto) {
     const rank = await this.computeNewCardRank(data);
 
-    const newCard = await prisma.card.create({
+    const newCard = await this.prisma.card.create({
       data: { ...data, rank },
     });
 
     if (newCard) {
-      const boardId = await prisma.column.findUnique({
+      const boardId = await this.prisma.column.findUnique({
         where: {
           id: newCard.columnId,
         },
         select: { boardId: true },
       });
-      appEvents.emit(EVENTS.CARD_CREATED, { boardId, card: newCard });
+      this.eventManager.emit(EVENTS.CARD_CREATED, { boardId, card: newCard });
     }
     return newCard;
   }
 
   async update(id: string, data: UpdateCardDto) {
-    return prisma.card.update({
+    return this.prisma.card.update({
       where: { id, version: data.version },
       data: { ...data, version: { increment: 1 } },
     });
   }
 
   async assignTag(id: string, data: CreateTagDto) {
-    const card = await prisma.card.findUnique({ where: { id } });
+    const card = await this.prisma.card.findUnique({ where: { id } });
     if (card) {
-      const tag = await prisma.tag.create({
+      const tag = await this.prisma.tag.create({
         data: data,
       });
-      return prisma.card.update({
+      return this.prisma.card.update({
         where: { id },
         data: {
           tags: {
@@ -91,7 +104,7 @@ class CardService {
   }
 
   async setDueDate(id: string, dueDate: string) {
-    return prisma.card.update({
+    return this.prisma.card.update({
       where: { id },
       data: {
         dueDate: new Date(dueDate),
@@ -99,19 +112,19 @@ class CardService {
     });
   }
   async delete(id: string) {
-    return prisma.card.delete({
+    return this.prisma.card.delete({
       where: { id },
     });
   }
   async getCardInColumn(id: string) {
-    return prisma.card.findMany({
+    return this.prisma.card.findMany({
       where: { columnId: id },
       include: { tags: true },
     });
   }
   async getPaginatedCards(data: PaginatedCardDto) {
     const { columnId, limit = 10, cursorId } = data;
-    const cards = await prisma.card.findMany({
+    const cards = await this.prisma.card.findMany({
       where: { columnId },
       take: limit + 1,
       cursor: cursorId ? { id: cursorId } : undefined,
@@ -129,4 +142,4 @@ class CardService {
   }
 }
 
-export default new CardService();
+export default new CardService(prisma, LexoRankUtil, appEvents);
