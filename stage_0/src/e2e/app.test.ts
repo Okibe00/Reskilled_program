@@ -15,7 +15,7 @@ describe('Auth Controller (Integration)', () => {
     name: 'okibe onmeje',
     email: 'okibe@test.com',
   };
-
+  //first test should be signup
   it('/POST /Auth/Login - should return a token', async () => {
     const response = await request(app).post('/auth/signup').send(user);
     const { data } = response.body;

@@ -15,8 +15,8 @@
   "type": "module",
   "main": "app.ts",
   "scripts": {
-    "test": "node --experimental-vm-modules node_modules/jest/bin/jest.js --watch --verbose",
-    "test:e2e": "node --experimental-vm-modules node_modules/jest/bin/jest.js --testPathPatterns=src/e2e --watch --verbose",
+    "test:unit": "node --experimental-vm-modules node_modules/jest/bin/jest.js --testPathPatterns=src/modules --detectOpenHandles --watch --verbose",
+    "test:e2e": "node --experimental-vm-modules node_modules/jest/bin/jest.js --detectOpenHandles  --testPathPatterns=src/e2e --watch --verbose",
     "build": "./clean_dist_dir.sh &&  tsc",
     "start": "node ./dist/src/server.js",
     "postinstall": "prisma generate",
