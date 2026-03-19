@@ -1,7 +1,8 @@
 import { PrismaClient } from '@prisma/client';
 import prisma from '../../config/database.js';
 import { CreateBoardDto, FetchAllBoardDto, UpdateBoardDto } from './dto/board.dto.js';
-class BoardService {
+
+export class BoardService {
   constructor(private prisma: PrismaClient){}
   async create(data: CreateBoardDto) {
     return this.prisma.board.create({
