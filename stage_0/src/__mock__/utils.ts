@@ -1,5 +1,5 @@
 import jwt from 'jsonwebtoken';
-import '@jest/globals';
+import { jest } from '@jest/globals';
 export function wrapperSign(
   payload: any,
   secret: string,
@@ -8,10 +8,11 @@ export function wrapperSign(
   return jwt.sign(payload, secret, options);
 }
 
-
 export const jwtMock = {
-  sign: jest.fn((payload: any, secret: string, options: object) => 'mock_token'),
-  verify: jest.fn()
+  sign: jest.fn(
+    (payload: any, secret: string, options: object) => 'mock_token'
+  ),
+  verify: jest.fn(),
 };
 
 export const bcryptMock = {
@@ -20,3 +21,6 @@ export const bcryptMock = {
   hashSync: jest.fn((pass: string, salt: number) => 'hashPassword'),
 };
 
+export const eventManagerMock = {
+  emit: jest.fn(),
+};

@@ -1,10 +1,13 @@
 import prisma from '../../config/database.js';
 import { CreateCommentDto, UpdateCommentDto } from './dto/comment.dto.js';
 import { appEvents, EVENTS } from '../../common/events/event-emitter.js';
-import { PrismaClient, Comment} from '@prisma/client';
+import { PrismaClient, Comment } from '@prisma/client';
 
 export class CommentService {
-  constructor(private prisma: PrismaClient) {}
+  constructor(
+    private prisma: PrismaClient,
+    private eventManager: typeof appEvents
+  ) {}
 
   async create(data: CreateCommentDto): Promise<Comment> {
     const newComment = await this.prisma.comment.create({
@@ -16,7 +19,7 @@ export class CommentService {
       },
     });
     if (newComment) {
-      appEvents.emit(EVENTS.COMMENT_ADDED, newComment);
+      this.eventManager.emit(EVENTS.COMMENT_ADDED, newComment);
     }
     return newComment;
   }
@@ -43,7 +46,7 @@ export class CommentService {
   ) {
     const skip = (page - 1) * limit;
 
-    const comments = await prisma.comment.findMany({
+    const comments = await this.prisma.comment.findMany({
       where: {
         cardId: cardId,
         parentId: null,
@@ -72,14 +75,16 @@ export class CommentService {
     const totalLevel1Comments = await prisma.comment.count({
       where: { cardId: cardId, parentId: null },
     });
-
+    const totalPages = Math.ceil(totalLevel1Comments / limit)
+      ? Math.ceil(totalLevel1Comments / limit)
+      : 1;
     return {
       comments,
       meta: {
         total: totalLevel1Comments,
         page,
         limit,
-        totalPages: Math.ceil(totalLevel1Comments / limit),
+        totalPages,
       },
     };
   }
@@ -117,4 +122,4 @@ export class CommentService {
   }
 }
 
-export default new CommentService(prisma);
+export default new CommentService(prisma, appEvents);
