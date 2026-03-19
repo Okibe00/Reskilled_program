@@ -1,7 +1,7 @@
 import { sendError, sendSuccess } from '../../common/utils/helper.res.js';
 import { NextFunction, Request, Response } from 'express';
 import cardService from './card.service.js';
-import { moveCardDto } from './dto/card.dto.js';
+import { moveCardDto, PaginatedCardDto } from './dto/card.dto.js';
 import { nextTick } from 'node:process';
 
 class CardController {
@@ -69,6 +69,15 @@ class CardController {
       return sendSuccess(res, 200, 'Success', updatedCard);
     } catch (error: any) {
       return next(error);
+    }
+  }
+  async getPaginatedCards(req: Request, res: Response, next: NextFunction) {
+    try {
+      const query = { ...req.query } as unknown as PaginatedCardDto;
+      const cards = await cardService.getPaginatedCards(query);
+      return sendSuccess(res, 200, 'Success', cards);
+    } catch (error: any) {
+      next(error);
     }
   }
 }

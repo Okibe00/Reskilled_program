@@ -1,4 +1,4 @@
-import { z } from 'zod';
+import { uuid, z } from 'zod';
 export const UpdateCardSchema = z.object({
   title: z
     .string()
@@ -34,9 +34,15 @@ export const CreateTagSchema = z.object({
   colorHex: z.string().regex(/^#?[0-9A-Fa-f]{6}$/),
 });
 
+export const PaginatedCardSchema = z.object({
+  limit: z.number().int(),
+  columnId: z.uuid(),
+  cursorId: uuid().optional(),
+});
 export const CardParamSchema = z.object({
   id: z.uuid(),
 });
+export type PaginatedCardDto = z.infer<typeof PaginatedCardSchema>;
 export type CreateCardDto = z.infer<typeof CreateCardSchema>;
 export type UpdateCardDto = z.infer<typeof UpdateCardSchema>;
 export type CreateTagDto = z.infer<typeof CreateTagSchema>;

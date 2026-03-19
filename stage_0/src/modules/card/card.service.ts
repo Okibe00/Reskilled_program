@@ -4,6 +4,7 @@ import {
   UpdateCardDto,
   CreateTagDto,
   moveCardDto,
+  PaginatedCardDto,
 } from './dto/card.dto.js';
 import { appEvents, EVENTS } from '../../common/events/event-emitter.js';
 import { LexoRankUtil } from '../../common/utils/lexorank.utils.js';
@@ -67,7 +68,7 @@ class CardService {
   async update(id: string, data: UpdateCardDto) {
     return prisma.card.update({
       where: { id, version: data.version },
-      data: {...data, version: {increment: 1}},
+      data: { ...data, version: { increment: 1 } },
     });
   }
 
@@ -107,6 +108,24 @@ class CardService {
       where: { columnId: id },
       include: { tags: true },
     });
+  }
+  async getPaginatedCards(data: PaginatedCardDto) {
+    const { columnId, limit = 10, cursorId } = data;
+    const cards = await prisma.card.findMany({
+      where: { columnId },
+      take: limit + 1,
+      cursor: cursorId ? { id: cursorId } : undefined,
+      orderBy: { rank: 'asc' },
+    });
+
+    let nextCursor: typeof cursorId | undefined = undefined;
+
+    if (cards.length > limit) {
+      const nextItem = cards.pop();
+      nextCursor = nextItem!.id;
+    }
+
+    return { data: cards, nextCursor };
   }
 }
 

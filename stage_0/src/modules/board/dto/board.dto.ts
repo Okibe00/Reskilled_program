@@ -10,8 +10,13 @@ export const CreateBoardSchema = z.object({
   description: z.string().min(3, 'description is too short').optional(),
 });
 
+export const FetchAllBoardSchema = z.object({
+  page: z.number().int(),
+  limit: z.number().int(),
+});
 export const BoardParamSchema = z.object({
   id: z.uuid(),
 });
+export type FetchAllBoardDto = z.infer<typeof FetchAllBoardSchema>;
 export type CreateBoardDto = z.infer<typeof CreateBoardSchema>;
 export type UpdateBoardDto = z.infer<typeof UpdateBoardSchema>;

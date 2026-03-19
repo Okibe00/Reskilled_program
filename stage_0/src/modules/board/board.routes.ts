@@ -12,40 +12,53 @@ const route = Router();
 
 /**
  * @swagger
- * /board:
+ * /board/all:
  *   get:
- *     summary: retrieve all boards
- *     security:
- *       - bearerAuth: []
+ *     summary: Fetch all boards with pagination
  *     tags:
  *       - Board
+ *     parameters:
+ *       - in: query
+ *         name: page
+ *         required: true
+ *         schema:
+ *           type: integer
+ *           minimum: 1
+ *           example: 1
+ *         description: Page number for pagination
+ *       - in: query
+ *         name: limit
+ *         required: true
+ *         schema:
+ *           type: integer
+ *           minimum: 1
+ *           example: 10
+ *         description: Number of boards per page
  *     responses:
  *       200:
- *         description: array of board objects
+ *         description: Boards fetched successfully
  *         content:
  *           application/json:
  *             schema:
- *               type: array
- *               items:
- *                 type: object
- *                 properties:
- *                   id:
- *                     type: string
- *                     format: uuid
- *                   title:
- *                     type: string
- *                   userId:
- *                     type: string
- *                     format: uuid
- *                   description:
- *                     type: string
- *                 example:
- *                   id: "123e4567-e89b-12d3-a456-426614174000"
- *                   title: "Project board"
- *                   userId: "123e4567-e89b-12d3-a456-426614174000"
- *                   description: "Tasks for Q1"
+ *               type: object
+ *               properties:
+ *                 data:
+ *                   type: array
+ *                   items:
+ *                     type: object
+ *                 meta:
+ *                   type: object
+ *                   properties:
+ *                     page:
+ *                       type: integer
+ *                     limit:
+ *                       type: integer
+ *                     total:
+ *                       type: integer
+ *       400:
+ *         description: Invalid query parameters
  */
-route.get('/board', authGuard, boardController.getUserBoard);
+route.get('/board/all', authGuard, boardController.getUserBoard);
 
 /**
  * @swagger

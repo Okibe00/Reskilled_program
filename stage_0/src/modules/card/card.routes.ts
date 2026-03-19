@@ -5,6 +5,7 @@ import {
   CardParamSchema,
   CreateTagSchema,
   moveCardSchema,
+  PaginatedCardSchema,
 } from './dto/card.dto.js';
 import { authGuard } from '../../common/middleware/auth.middleware.js';
 import { validateUser } from '../../common/middleware/validation.middleware.js';
@@ -138,6 +139,62 @@ route.delete(
   cardController.deleteCard
 );
 
+/**
+ * @swagger
+ * /cards/all:
+ *   get:
+ *     summary: Fetch paginated cards for a column using cursor-based pagination
+ *     tags:
+ *       - Card
+ *     parameters:
+ *       - in: query
+ *         name: columnId
+ *         required: true
+ *         schema:
+ *           type: string
+ *           format: uuid
+ *         description: ID of the column to fetch cards from
+ *       - in: query
+ *         name: limit
+ *         required: true
+ *         schema:
+ *           type: integer
+ *           minimum: 1
+ *           example: 10
+ *         description: Number of cards to fetch
+ *       - in: query
+ *         name: cursorId
+ *         required: false
+ *         schema:
+ *           type: string
+ *           format: uuid
+ *         description: Cursor ID for fetching the next set of results
+ *     responses:
+ *       200:
+ *         description: Cards fetched successfully
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 data:
+ *                   type: array
+ *                   items:
+ *                     type: object
+ *                 nextCursor:
+ *                   type: string
+ *                   format: uuid
+ *                   nullable: true
+ *                   description: Cursor for the next page (null if no more data)
+ *       400:
+ *         description: Invalid query parameters
+ */
+route.get(
+  '/card/all',
+  authGuard,
+  validateUser(PaginatedCardSchema, 'query'),
+  cardController.getPaginatedCards
+);
 /**
  * @swagger
  * /column/{id}/cards:

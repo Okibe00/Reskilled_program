@@ -1,49 +1,48 @@
-import { sendError, sendSuccess } from '../../common/utils/helper.res.js';
-import { Request, Response } from 'express';
+import { sendSuccess } from '../../common/utils/helper.res.js';
+import { NextFunction, Request, Response } from 'express';
 import boardService from './board.service.js';
+import { FetchAllBoardDto } from './dto/board.dto.js';
 
 class BoardController {
-  async getUserBoard(req: Request, res: Response) {
+  async getUserBoard(req: Request, res: Response, next: NextFunction) {
     try {
       const id = req.user?.id as string;
-      const boards = await boardService.findAllBoard(id);
+      const query = {
+        limit: req.query.limit,
+        page: req.query.page,
+      } as unknown as FetchAllBoardDto;
+      const boards = await boardService.findAllBoard(id, query);
       return sendSuccess(res, 200, 'Success', boards);
-    } catch (error) {
-      return sendError(res, 404, 'Failed', 'Not Found', error);
+    } catch (error: any) {
+      return next(error);
     }
   }
 
-  async createBoard(req: Request, res: Response) {
+  async createBoard(req: Request, res: Response, next: NextFunction) {
     try {
       const board = await boardService.create(req.body);
       return sendSuccess(res, 201, 'Resource Created', board);
     } catch (error: any) {
-      return sendError(
-        res,
-        400,
-        'Failed to create resource',
-        error.code,
-        error
-      );
+      return next(error);
     }
   }
 
-  async deleteBoard(req: Request, res: Response) {
+  async deleteBoard(req: Request, res: Response, next: NextFunction) {
     try {
       const id = req.params.id as string;
       const board = await boardService.delete(id);
       return sendSuccess(res, 200, 'Success', board);
     } catch (error: any) {
-      return sendError(res, 500, 'Failed', error);
+      return next(error);
     }
   }
-  async updateBoard(req: Request, res: Response) {
+  async updateBoard(req: Request, res: Response, next: NextFunction) {
     try {
       const id = req.params.id as string;
       const updatedBoard = await boardService.update(id, req.body);
       return sendSuccess(res, 200, 'Success', updatedBoard);
     } catch (error: any) {
-      return sendError(res, 500, 'Failed', error);
+      return next(error);
     }
   }
 }

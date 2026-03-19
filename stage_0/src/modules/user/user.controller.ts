@@ -1,37 +1,42 @@
+import { sendSuccess } from '../../common/utils/helper.res.js';
 import userService from './user.service.js';
-import { Response, Request } from 'express';
+import { Response, Request, NextFunction } from 'express';
 
 class UserController {
-  async getAll(req: Request, res: Response) {
-    const users = await userService.findAll();
-    res.status(200).json(users);
-  }
-
-  async create(req: Request, res: Response) {
+  async getAll(req: Request, res: Response, next: NextFunction) {
     try {
-      const user = await userService.createUser(req.body);
-      res.status(201).json(user);
+      const users = await userService.findAll();
+      return sendSuccess(res, 200, 'Success', users);
     } catch (error: any) {
-      res.status(400).json({ message: error.message });
+      next(error);
     }
   }
 
-  async delete(req: Request, res: Response) {
+  async create(req: Request, res: Response, next: NextFunction) {
+    try {
+      const user = await userService.createUser(req.body);
+      return sendSuccess(res, 201, 'Success', user);
+    } catch (error: any) {
+      return next(error);
+    }
+  }
+
+  async delete(req: Request, res: Response, next: NextFunction) {
     try {
       const id = req.params.id as string;
       const user = await userService.deleteUser(id);
-      res.status(201).json(user);
+      return sendSuccess(res, 200, 'success', user);
     } catch (error: any) {
-      res.status(400).json({ message: error.message });
+      return next(error);
     }
   }
-  async update(req: Request, res: Response) {
+  async update(req: Request, res: Response, next: NextFunction) {
     try {
       const id = req.params.id as string;
       const user = await userService.updateUser(id, req.body);
-      res.status(201).json(user);
+      return sendSuccess(res, 201, 'Success', user);
     } catch (error: any) {
-      res.status(400).json({ message: error.message });
+      return next(error);
     }
   }
 }

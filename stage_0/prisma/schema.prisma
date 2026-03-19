@@ -46,6 +46,8 @@ model Column {
   cards         Card[]
   createdAt     DateTime @default(now())
   updatedAt     DateTime @updatedAt
+
+  @@index([boardId])
 }
 
 // Card - Belongs to a Column
@@ -92,4 +94,7 @@ model Comment {
   card    Card      @relation(fields: [cardId], references: [id], onDelete: Cascade)
   parent  Comment?  @relation("ThreadedReplies", fields: [parentId], references: [id], onDelete: Cascade)
   replies Comment[] @relation("ThreadedReplies")
+
+  @@index([cardId])
+  @@index([parentId])
 }

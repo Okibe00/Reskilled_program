@@ -1,5 +1,5 @@
 import prisma from '../../config/database.js';
-import { CreateBoardDto, UpdateBoardDto } from './dto/board.dto.js';
+import { CreateBoardDto, FetchAllBoardDto, UpdateBoardDto } from './dto/board.dto.js';
 class BoardService {
   async create(data: CreateBoardDto) {
     return prisma.board.create({
@@ -12,12 +12,16 @@ class BoardService {
       data: data,
     });
   }
-  //todo: pagination required
-  async findAllBoard(id: string) {
+  async findAllBoard(id: string, query: FetchAllBoardDto) {
+    const { limit = 10, page = 1 } = query;
+    const skip = (page - 1) * limit;
+
     return prisma.board.findMany({
       where: {
         userId: id,
       },
+      take: limit,
+      skip,
     });
   }
   async delete(id: string) {
