@@ -1,7 +1,8 @@
 import { PrismaClient } from '@prisma/client';
 import prisma from '../../config/database.js';
 import { CreateColumnDto, UpdateColumnDto } from './dto/column.dto.js';
-class ColumnService {
+
+export class ColumnService {
   constructor(private prisma: PrismaClient) {}
 
   async create(data: CreateColumnDto) {
