@@ -24,3 +24,7 @@ export const bcryptMock = {
 export const eventManagerMock = {
   emit: jest.fn(),
 };
+
+export const mockLexoRankUtil = {
+  calculateRank: jest.fn(),
+};
