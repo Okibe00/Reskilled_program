@@ -3,6 +3,7 @@ import {
   CreateBoardSchema,
   UpdateBoardSchema,
   BoardParamSchema,
+  FetchAllBoardSchema,
 } from './dto/board.dto.js';
 import { authGuard } from '../../common/middleware/auth.middleware.js';
 import { validateUser } from '../../common/middleware/validation.middleware.js';
@@ -58,7 +59,12 @@ const route = Router();
  *       400:
  *         description: Invalid query parameters
  */
-route.get('/board/all', authGuard, boardController.getUserBoard);
+route.get(
+  '/board/all',
+  authGuard,
+  validateUser(FetchAllBoardSchema, 'query'),
+  boardController.getUserBoard
+);
 
 /**
  * @swagger
