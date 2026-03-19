@@ -32,3 +32,4 @@ export const LexoRankUtil = {
     throw new Error('Invalid rank calculation parameters');
   }
 };
+export type LexoRankUtilType = typeof LexoRankUtil

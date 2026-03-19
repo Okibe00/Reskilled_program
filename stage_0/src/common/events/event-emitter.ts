@@ -9,3 +9,5 @@ export const EVENTS = {
   CARD_MOVED: 'CARD_MOVED',
   COMMENT_ADDED: 'COMMENT_ADDED',
 };
+
+export type appEventsType = typeof appEvents;
