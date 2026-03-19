@@ -1,2 +1,0 @@
--- AlterTable
-ALTER TABLE "Card" ADD COLUMN     "version" INTEGER NOT NULL DEFAULT 1;
