@@ -91,6 +91,9 @@ route.post(
  *               content:
  *                 type: string
  *                 minLength: 3
+ *               version:
+ *                 type: number
+ *                 min: 1
  *               dueDate:
  *                 type: string
  *                 format: date-time
@@ -102,6 +105,7 @@ route.post(
  *               content: "More details"
  *               dueDate: "2026-03-15T00:00:00.000Z"
  *               positionIndex: 3
+ *               version: 1
  *     responses:
  *       200:
  *         description: Card updated successfully
@@ -141,7 +145,7 @@ route.delete(
 
 /**
  * @swagger
- * /cards/all:
+ * /card/all:
  *   get:
  *     summary: Fetch paginated cards for a column using cursor-based pagination
  *     tags:
