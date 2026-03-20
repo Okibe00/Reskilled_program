@@ -92,88 +92,19 @@ erDiagram
 This project uses a **Module-Based Architecture** (Domain-Driven Design). Instead of grouping by technical type (controllers, models), we group by **feature**.
 
 ```
+.
 ├── README.md
+├── architectural_evolution.md
 ├── clean_dist_dir.sh
 ├── compose.yml
 ├── database schema cropped.png
 ├── db_schema.png
-├── dist
-│   ├── jest.config.js
-│   ├── prisma.config.js
-│   └── src
-│       ├── __mock__
-│       │   ├── prisma.mock.js
-│       │   └── utils.js
-│       ├── app.js
-│       ├── common
-│       │   ├── events
-│       │   │   └── event-emitter.js
-│       │   ├── middleware
-│       │   │   ├── auth.middleware.js
-│       │   │   ├── error.middleware.js
-│       │   │   ├── socket_auth.middleware.js
-│       │   │   └── validation.middleware.js
-│       │   └── utils
-│       │       ├── helper.res.js
-│       │       └── lexorank.utils.js
-│       ├── config
-│       │   ├── database.js
-│       │   ├── logger.js
-│       │   └── swagger.js
-│       ├── e2e
-│       │   └── app.test.js
-│       ├── gateways
-│       │   ├── board.gateway.docs.js
-│       │   └── board.gateway.js
-│       ├── modules
-│       │   ├── auth
-│       │   │   ├── auth.controller.js
-│       │   │   ├── auth.routes.js
-│       │   │   ├── auth.service.js
-│       │   │   └── dto
-│       │   │       └── login.dto.js
-│       │   ├── board
-│       │   │   ├── board.controller.js
-│       │   │   ├── board.routes.js
-│       │   │   ├── board.service.js
-│       │   │   ├── board.spec.js
-│       │   │   └── dto
-│       │   │       └── board.dto.js
-│       │   ├── card
-│       │   │   ├── card.controller.js
-│       │   │   ├── card.routes.js
-│       │   │   ├── card.service.js
-│       │   │   ├── card.spec.js
-│       │   │   └── dto
-│       │   │       └── card.dto.js
-│       │   ├── column
-│       │   │   ├── column.controller.js
-│       │   │   ├── column.routes.js
-│       │   │   ├── column.service.js
-│       │   │   ├── column.spec.js
-│       │   │   └── dto
-│       │   │       └── column.dto.js
-│       │   ├── comment
-│       │   │   ├── comment.controller.js
-│       │   │   ├── comment.routes.js
-│       │   │   ├── comment.service.js
-│       │   │   ├── comment.spec.js
-│       │   │   └── dto
-│       │   │       └── comment.dto.js
-│       │   └── user
-│       │       ├── dto
-│       │       │   └── user.dto.js
-│       │       ├── user.controller.js
-│       │       ├── user.routes.js
-│       │       ├── user.service.js
-│       │       └── user.service.spec.js
-│       └── server.js
 ├── jest.config.ts
 ├── package-lock.json
 ├── package.json
 ├── prisma
 │   ├── migrations
-│   │   ├── 20260319214823_init
+│   │   ├── 20260320135747_init
 │   │   │   └── migration.sql
 │   │   └── migration_lock.toml
 │   └── schema.prisma
