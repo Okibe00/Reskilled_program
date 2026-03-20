@@ -27,7 +27,7 @@ export const CreateCardSchema = z.object({
   dueDate: z.coerce.date().optional(),
   positionIndex: z.int().min(1),
   columnId: z.uuid(),
-  rank: z.string(),
+  rank: z.string().optional()
 });
 export const CreateTagSchema = z.object({
   label: z.string().min(3, 'Label too short must be atleast 3 characters long'),
@@ -35,7 +35,7 @@ export const CreateTagSchema = z.object({
 });
 
 export const PaginatedCardSchema = z.object({
-  limit: z.number().int(),
+  limit: z.coerce.number().int(),
   columnId: z.uuid(),
   cursorId: uuid().optional(),
 });

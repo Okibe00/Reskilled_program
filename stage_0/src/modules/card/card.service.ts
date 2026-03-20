@@ -32,6 +32,7 @@ export class CardService {
       data: {
         columnId: columnId,
         rank: newRank,
+        version: { increment: 1 },
       },
       include: { column: { select: { boardId: true } } },
     });
@@ -123,7 +124,9 @@ export class CardService {
     });
   }
   async getPaginatedCards(data: PaginatedCardDto) {
-    const { columnId, limit = 10, cursorId } = data;
+    const { columnId, cursorId } = data;
+    let limit: any = `${data.limit}`;
+    limit = parseInt(limit);
     const cards = await this.prisma.card.findMany({
       where: { columnId },
       take: limit + 1,
