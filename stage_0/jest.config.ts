@@ -7,7 +7,7 @@ const presetConfig = createDefaultEsmPreset({
 
 export default {
   ...presetConfig,
-  rootDir: '.',
+ roots: ['<rootDir>/src'],
   moduleFileExtensions: ['ts', 'js'],
   moduleNameMapper: {
     '^(\\.{1,2}/.*)\\.js$': '$1',
