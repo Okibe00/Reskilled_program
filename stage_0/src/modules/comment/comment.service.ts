@@ -53,7 +53,7 @@ export class CommentService {
       },
       take: limit,
       skip: skip,
-      orderBy: { createdAt: 'desc' }, // Newest threads first
+      orderBy: { createdAt: 'desc' },
 
       include: {
         user: { select: { name: true } },
