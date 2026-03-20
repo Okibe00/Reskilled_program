@@ -288,10 +288,6 @@ I leverage Prisma’s **Fluent API** for relationships. For example, when fetchi
 we can optionally `include` related records without writing complex SQL `JOIN`
 statements, maintaining readability without sacrificing performance.
 
----
-Here is a clean, professional Markdown version of your documentation. I've added a few structural touches to make it "README-ready" while keeping your technical logic intact.
-
----
 
 # Conflict Resolution Strategy: Optimistic Concurrency Control (OCC)
 
