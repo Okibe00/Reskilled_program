@@ -18,7 +18,6 @@ export class BoardService {
   async findAllBoard(id: string, query: FetchAllBoardDto) {
     const { limit = 10, page = 1 } = query;
     const skip = (page - 1) * limit;
-
     return this.prisma.board.findMany({
       where: {
         userId: id,
