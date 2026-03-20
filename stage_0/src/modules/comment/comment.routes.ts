@@ -60,7 +60,8 @@ const routes = Router();
  */
 routes.post(
   '/comments',
-  /*authGuard,*/ validateUser(CreateCommentSchema, 'body'),
+  authGuard,
+  validateUser(CreateCommentSchema, 'body'),
   commentController.createComment
 );
 
