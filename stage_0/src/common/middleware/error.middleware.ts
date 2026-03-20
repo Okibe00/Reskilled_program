@@ -1,6 +1,7 @@
 import { ErrorRequestHandler, NextFunction, Response, Request } from 'express';
 import { ZodError } from 'zod';
 import { Prisma } from '@prisma/client';
+import { logger } from '../../config/logger.js';
 
 export const globalErrorHandler: ErrorRequestHandler = (
   err: any,
@@ -8,8 +9,7 @@ export const globalErrorHandler: ErrorRequestHandler = (
   res: Response,
   next: NextFunction
 ) => {
-  console.error(`[Global Error Handler] ${req.method} ${req.originalUrl} -`, err);
-
+  logger.debug(err, `[Global Error Handler] ${req.method} ${req.originalUrl} -`);
   if (err instanceof ZodError) {
     return res.status(400).json({
       status: 'fail',
