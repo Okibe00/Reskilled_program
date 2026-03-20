@@ -11,8 +11,8 @@ export const CreateBoardSchema = z.object({
 });
 
 export const FetchAllBoardSchema = z.object({
-  page: z.number().int(),
-  limit: z.number().int(),
+  page: z.coerce.number().int(),
+  limit: z.coerce.number().int(),
 });
 export const BoardParamSchema = z.object({
   id: z.uuid(),

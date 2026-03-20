@@ -1,16 +1,13 @@
 import { sendSuccess } from '../../common/utils/helper.res.js';
 import { NextFunction, Request, Response } from 'express';
 import boardService from './board.service.js';
-import { FetchAllBoardDto } from './dto/board.dto.js';
+import { FetchAllBoardDto, FetchAllBoardSchema } from './dto/board.dto.js';
 
 class BoardController {
   async getUserBoard(req: Request, res: Response, next: NextFunction) {
     try {
       const id = req.user?.id as string;
-      const query = {
-        limit: req.query.limit,
-        page: req.query.page,
-      } as unknown as FetchAllBoardDto;
+      const query = FetchAllBoardSchema.parse(req.query);
       const boards = await boardService.findAllBoard(id, query);
       return sendSuccess(res, 200, 'Success', boards);
     } catch (error: any) {
